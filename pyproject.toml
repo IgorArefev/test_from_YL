@@ -1,0 +1,28 @@
+[tool.poetry]
+name = "menu"
+version = "0.1.0"
+description = "y_lab_test"
+authors = ["Игорь Арефьев <djifrost@mail.ru>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.109.0"
+uvicorn = {extras = ["standard"], version = "^0.26.0"}
+sqlalchemy = "^2.0.25"
+asyncpg = "^0.29.0"
+alembic = "^1.13.1"
+pydantic-settings = "^2.1.0"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.4"
+yarl = "^1.9.4"
+mypy = "^1.8.0"
+isort = "^5.13.2"
+black = "^23.12.1"
+flake8 = "^7.0.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
