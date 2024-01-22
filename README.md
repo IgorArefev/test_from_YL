@@ -31,6 +31,10 @@ git clone git@github.com:IgorArefev/test_from_YL.git
 ```
 poetry install
 ```
+2/3. Заходим в виртуальное окружение
+```
+poetry shell
+```
 3. В .env записываем данные для подключения к БД PostgreSQL
 ```
 DB_NAME=
