@@ -19,45 +19,22 @@
 - SQLAlchemy 2.0.25
 - Pydantic 2.5.3
 - Alembic 1.13.1
-- PostgreSQL 16
+- PostgreSQL 15.1
+- Docker
 
 ## Как запустить?
+
+### Для запуска потребуется докер
 
 1. Клонируем проект:
 ```
 git clone git@github.com:IgorArefev/test_from_YL.git
 ```
-2. Устанавливаем зависимости:
+2. Переименовываем файл dev.env -> .env-net
+
+3. В корневом каталоге запускаем проект командой:
 ```
-poetry install
-```
-2/3. Заходим в виртуальное окружение
-```
-poetry shell
-```
-3. В .env записываем данные для подключения к БД PostgreSQL
-```
-DB_NAME=
-DB_PORT=
-DB_HOST=
-DB_USER=
-DB_PASS=
-```
-3/4. Переходим в рабочий каталог:
-```
-cd menu/
-```
-4. Создаем файл миграции:
-```
-alembic revision --autogenerate -m "You're comment here"
-```
-5. Запускаем миграции:
-```
-alembic upgrade head
-```
-6. Запускаем проект
-```
-uvicorn main:menu_app --reload
+docker compose up -d
 ```
 
 ## Тестируем
