@@ -69,3 +69,8 @@ uvicorn main:menu_app --reload
 ```
 http://127.0.0.1:8000/docs
 ```
+
+## Запрос в БД для подсчета подменю и блюд по адресу
+```
+menu/models/menu.py  :19 строка
+```

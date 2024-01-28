@@ -1,12 +1,19 @@
-from sqlalchemy import Column, ForeignKey, Text
-from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy.orm import relationship
+from typing import TYPE_CHECKING
+from sqlalchemy import ForeignKey, UUID
+from sqlalchemy.orm import relationship, Mapped, mapped_column
 
 from menu.core.db import Base
 
+if TYPE_CHECKING:
+    from menu.models.dish import Dish
+    from menu.models.menu import Menu
 
-class SubMenus(Base):
-    title = Column(Text, nullable=False, unique=True)
-    description = Column(Text, nullable=False)
-    menu_id = Column(UUID(as_uuid=True), ForeignKey("menus.id"))
-    dish = relationship("Dishes", cascade="delete")
+
+class SubMenu(Base):
+    """Модель подменю."""
+
+    title: Mapped[str] = mapped_column(nullable=False, unique=True)
+    description: Mapped[str] = mapped_column(nullable=False)
+    menu_id: Mapped[UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("menu.id"))
+    dish: Mapped[list["Dish"]] = relationship("Dish", cascade="delete")
+

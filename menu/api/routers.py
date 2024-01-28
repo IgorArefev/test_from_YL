@@ -11,7 +11,8 @@ main_router.include_router(
 )
 main_router.include_router(
     submenu_router,
-    prefix="/api/v1/menus/{target_menu_id}/submenus", tags=["Submenus"]
+    prefix="/api/v1/menus/{target_menu_id}/submenus",
+    tags=["Submenus"]
 )
 main_router.include_router(
     dish_router,

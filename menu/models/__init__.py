@@ -1,3 +1,3 @@
-from .dishes import Dishes  # noqa
-from .menu import Menus  # noqa
-from .submenu import SubMenus  # noqa
+from .dish import Dish  # noqa
+from .menu import Menu  # noqa
+from .submenu import SubMenu  # noqa
