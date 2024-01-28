@@ -1,8 +1,7 @@
 from sqlalchemy import ForeignKey, UUID
-from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy.orm import Mapped, mapped_column
 
 from menu.core.db import Base
-from menu.models.submenu import SubMenu
 
 
 class Dish(Base):

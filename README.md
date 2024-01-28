@@ -14,7 +14,7 @@
 
 Использованы следующие технологии:
 
-- Python 3.11.4
+- Python 3.10.5
 - FastAPI 0.109.0
 - SQLAlchemy 2.0.25
 - Pydantic 2.5.3

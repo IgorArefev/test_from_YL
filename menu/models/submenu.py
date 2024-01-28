@@ -6,7 +6,6 @@ from menu.core.db import Base
 
 if TYPE_CHECKING:
     from menu.models.dish import Dish
-    from menu.models.menu import Menu
 
 
 class SubMenu(Base):
