@@ -57,19 +57,7 @@ AsyncSessionLocal = async_sessionmaker(
     bind=engine
 )
 
-TestAsyncSessionLocal = async_sessionmaker(
-    autocommit=False,
-    autoflush=False,
-    expire_on_commit=False,
-    bind=test_engine
-)
-
 
 async def get_async_session():
     async with AsyncSessionLocal() as async_session:
         yield async_session
-
-
-async def get_test_async_session():
-    async with TestAsyncSessionLocal() as test_async_session:
-        yield test_async_session

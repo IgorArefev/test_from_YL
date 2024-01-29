@@ -3,7 +3,7 @@ import asyncio
 import pytest
 from httpx import AsyncClient
 
-from menu.core.db import Base, test_engine
+from menu.core.db import Base, engine
 from menu.main import menu_app
 from menu.schemas.menu import MenuResponse
 from menu.schemas.submenu import SubmenuResponse
@@ -13,9 +13,9 @@ from menu.api.routers import MENU_PREFIX
 
 @pytest.fixture(autouse=True)
 async def db_clean():
-    async with test_engine.begin() as engine:
-        await engine.run_sync(Base.metadata.drop_all)
-        await engine.run_sync(Base.metadata.create_all)
+    async with engine.begin() as async_engine:
+        await async_engine.run_sync(Base.metadata.drop_all)
+        await async_engine.run_sync(Base.metadata.create_all)
 
 
 @pytest.fixture(scope="session")

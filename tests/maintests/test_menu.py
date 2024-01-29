@@ -3,13 +3,11 @@ from httpx import AsyncClient
 from menu.schemas.menu import MenuResponse
 from menu.api.routers import MENU_PREFIX
 
-test_data: dict[str, str] = {}
-
 
 async def test_create_menu(
         async_client: AsyncClient
 ):
-    url = MENU_PREFIX
+    url = f"{MENU_PREFIX}/"
     body = {
         "title": "My menu 1",
         "description": "My menu description 1",
@@ -24,7 +22,7 @@ async def test_get_one_menu(
         async_client: AsyncClient,
         test_menu: MenuResponse
 ):
-    url = f"{MENU_PREFIX}/{test_menu.id}"
+    url = f"{MENU_PREFIX}/{test_menu.id}/"
     response = await async_client.get(url)
     assert response.status_code == 200
     assert response.json()["title"] == test_menu.title
@@ -34,7 +32,7 @@ async def test_get_one_menu(
 async def test_get_all_menus(
         async_client: AsyncClient
 ):
-    url = MENU_PREFIX
+    url = f"{MENU_PREFIX}/"
     response = await async_client.get(url)
     assert response.status_code == 200
     assert response.json() == []
