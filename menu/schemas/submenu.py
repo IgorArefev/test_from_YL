@@ -17,3 +17,7 @@ class SubMenuCreate(SubMenuBase):
 
 class SubMenuUpdate(SubMenuBase):
     pass
+
+
+class SubmenuResponse(SubMenuBase):
+    id: UUID4

@@ -12,6 +12,11 @@ class EnvSettings(BaseSettings):
     db_host: str
     db_user: str
     db_pass: str
+    db_test_name: str
+    db_test_port: int
+    db_test_host: str
+    db_test_user: str
+    db_test_pass: str
 
 
 settings = EnvSettings(_env_file=find_dotenv(".env"))

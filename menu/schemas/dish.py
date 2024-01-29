@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, UUID4
 
 
 class DishesBase(BaseModel):
@@ -13,3 +13,8 @@ class DishesCreate(DishesBase):
 
 class DishesUpdate(DishesBase):
     pass
+
+
+class DishResponse(DishesBase):
+    id: UUID4
+    submenu_id: UUID4

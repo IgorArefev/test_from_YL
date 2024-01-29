@@ -1,22 +1,22 @@
 version: "3.8"
 
 services:
-  db:
+  test_db:
     image: postgres:15.1-alpine
-    container_name: main_db
+    container_name: test_db
     ports:
       - "5432:5432"
     env_file:
       - .env-net
 
-  menu_app:
+  test_menu_app:
     build:
       context: .
-    container_name: menu
+    container_name: test_menu
     env_file:
       - .env-net
     ports:
       - "8000:8000"
     depends_on:
-      - db
+      - test_db
     command: bash -c "alembic upgrade head && gunicorn main:menu_app --workers 4 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000"

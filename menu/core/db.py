@@ -23,6 +23,15 @@ DB_URL = (
     f"{settings.db_name}"
 )
 
+TEST_DB_URL = (
+    "postgresql+asyncpg://"
+    f"{settings.db_test_user}:"
+    f"{settings.db_test_pass}@"
+    f"{settings.db_test_host}:"
+    f"{settings.db_test_port}/"
+    f"{settings.db_test_name}"
+)
+
 
 class Base(DeclarativeBase):
     """Базовый класс моделей."""
@@ -39,6 +48,7 @@ class Base(DeclarativeBase):
 
 
 engine = create_async_engine(DB_URL)
+test_engine = create_async_engine(TEST_DB_URL)
 
 AsyncSessionLocal = async_sessionmaker(
     autocommit=False,
@@ -47,7 +57,19 @@ AsyncSessionLocal = async_sessionmaker(
     bind=engine
 )
 
+TestAsyncSessionLocal = async_sessionmaker(
+    autocommit=False,
+    autoflush=False,
+    expire_on_commit=False,
+    bind=test_engine
+)
+
 
 async def get_async_session():
     async with AsyncSessionLocal() as async_session:
         yield async_session
+
+
+async def get_test_async_session():
+    async with TestAsyncSessionLocal() as test_async_session:
+        yield test_async_session

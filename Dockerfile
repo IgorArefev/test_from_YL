@@ -7,12 +7,12 @@ ENV POETRY_VIRTUALENVS_CREATE=0
 
 WORKDIR /menu_app
 
-COPY ./pyproject.toml ./poetry.lock ./.env-net ./
+COPY ./pyproject.toml ./poetry.lock ./.env-net ./pytest.ini ./
 
 RUN poetry install --only main --no-root
 
 WORKDIR ./menu
 
-COPY ./menu ./
+COPY ./menu ./tests ./
 
 ENV PYTHONPATH "${PYTHONPATH}:/menu_app"
