@@ -5,18 +5,37 @@ from pydantic_settings import BaseSettings
 class EnvSettings(BaseSettings):
     """Класс для работы с файлом .env."""
 
-    app_name: str = "Меню"
-    description: str = "Ylab"
-    db_name: str
-    db_port: int
-    db_host: str
     db_user: str
     db_pass: str
-    db_test_name: str
-    db_test_port: int
-    db_test_host: str
-    db_test_user: str
-    db_test_pass: str
+    db_host: str
+    db_port: int
+    db_name: str
+
+    app_name: str
+    description: str
+
+    postgres_db: str
+    postgres_user: str
+    postgres_password: str
+
+    mode: str
+
+    @property
+    def db_url(self):
+        return (
+            'postgresql+asyncpg://'
+            f'{settings.db_user}:'
+            f'{settings.db_pass}@'
+            f'{settings.db_host}:'
+            f'{settings.db_port}/'
+            f'{settings.db_name}'
+        )
+
+    class Config:
+        if not find_dotenv('local.env'):
+            env_file = find_dotenv('dev.env')
+        else:
+            env_file = find_dotenv('local.env')
 
 
-settings = EnvSettings(_env_file=find_dotenv(".env"))
+settings = EnvSettings()

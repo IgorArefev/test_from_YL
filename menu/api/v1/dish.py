@@ -6,13 +6,12 @@ from menu.core.db import get_async_session
 from menu.crud.dish import dish_crud, dish_validators
 from menu.schemas.dish import DishesCreate, DishesUpdate
 
-
 router = APIRouter()
-DETAIL = "dish not found"
+DETAIL = 'dish not found'
 
 
 @router.post(
-    "/",
+    '/',
     status_code=status.HTTP_201_CREATED
 )
 async def create_new_dish(
@@ -25,7 +24,7 @@ async def create_new_dish(
 
 
 @router.get(
-    "/{target_dish_id}",
+    '/{target_dish_id}',
     status_code=status.HTTP_200_OK
 )
 async def get_dish(
@@ -40,7 +39,7 @@ async def get_dish(
 
 
 @router.get(
-    "/",
+    '/',
     status_code=status.HTTP_200_OK
 )
 async def get_dishes(
@@ -50,7 +49,7 @@ async def get_dishes(
 
 
 @router.patch(
-    "/{target_dish_id}",
+    '/{target_dish_id}',
     status_code=status.HTTP_200_OK
 )
 async def update_dish_value(
@@ -68,7 +67,7 @@ async def update_dish_value(
 
 
 @router.delete(
-    "/{target_dish_id}",
+    '/{target_dish_id}',
     status_code=status.HTTP_200_OK
 )
 async def delete_target_dish(

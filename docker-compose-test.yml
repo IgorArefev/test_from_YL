@@ -5,18 +5,20 @@ services:
     image: postgres:15.1-alpine
     container_name: test_db
     ports:
-      - "5432:5432"
+      - "5433:5433"
+    command: -p 5433
     env_file:
-      - .env-net
+      - test_dev.env
 
-  test_menu_app:
+  test_app:
     build:
       context: .
+      dockerfile: Dockerfile
     container_name: test_menu
     env_file:
-      - .env-net
+      - test_dev.env
     ports:
-      - "8000:8000"
+      - "8080:8080"
+    command: ["/menu_app/app.sh", "test"]
     depends_on:
       - test_db
-    command: bash -c "alembic upgrade head && gunicorn main:menu_app --workers 4 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000"

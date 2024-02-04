@@ -4,19 +4,39 @@ services:
   db:
     image: postgres:15.1-alpine
     container_name: main_db
+    env_file:
+      - dev.env
     ports:
       - "5432:5432"
-    env_file:
-      - .env-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 30s
+      retries: 5
 
   menu_app:
     build:
       context: .
+      dockerfile: Dockerfile
     container_name: menu
     env_file:
-      - .env-net
+      - dev.env
     ports:
       - "8000:8000"
+    command: ["/menu_app/app.sh", "deploy"]
     depends_on:
-      - db
-    command: bash -c "alembic upgrade head && gunicorn main:menu_app --workers 4 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000"
+      redis:
+        condition: service_healthy
+      db:
+        condition: service_healthy
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: [ "CMD-SHELL", "redis-cli", "ping" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3

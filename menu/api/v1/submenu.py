@@ -4,16 +4,15 @@ from pydantic import UUID4
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from menu.core.db import get_async_session
-from menu.crud.submenu import counter, submenu_crud, submenu_validators
+from menu.crud.submenu import dishes_counter, submenu_crud, submenu_validators
 from menu.schemas.submenu import SubMenuCreate, SubMenuUpdate
 
-
 router = APIRouter()
-DETAIL = "submenu not found"
+DETAIL = 'submenu not found'
 
 
 @router.post(
-    "/",
+    '/',
     status_code=status.HTTP_201_CREATED
 )
 async def create_new_submenu(
@@ -26,7 +25,7 @@ async def create_new_submenu(
 
 
 @router.get(
-    "/{target_submenu_id}",
+    '/{target_submenu_id}',
     status_code=status.HTTP_200_OK
 )
 async def get_submenu(
@@ -39,7 +38,7 @@ async def get_submenu(
         DETAIL
     )
     item = jsonable_encoder(item)
-    item["dishes_count"] = await counter(
+    item['dishes_count'] = await dishes_counter(
         target_submenu_id,
         session
     )
@@ -47,7 +46,7 @@ async def get_submenu(
 
 
 @router.get(
-    "/",
+    '/',
     status_code=status.HTTP_200_OK
 )
 async def get_submenus(
@@ -57,7 +56,7 @@ async def get_submenus(
 
 
 @router.patch(
-    "/{target_submenu_id}",
+    '/{target_submenu_id}',
     status_code=status.HTTP_200_OK
 )
 async def update_submenu_value(
@@ -81,7 +80,7 @@ async def update_submenu_value(
 
 
 @router.delete(
-    "/{target_submenu_id}",
+    '/{target_submenu_id}',
     status_code=status.HTTP_200_OK
 )
 async def delete_target_submenu(

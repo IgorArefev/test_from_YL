@@ -1,4 +1,4 @@
-from pydantic import BaseModel, UUID4
+from pydantic import UUID4, BaseModel
 
 
 class MenuBase(BaseModel):
@@ -22,4 +22,3 @@ class MenuUpdate(MenuBase):
 
 class MenuResponse(MenuBase):
     id: UUID4
-

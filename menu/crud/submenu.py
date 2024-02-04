@@ -9,7 +9,7 @@ submenu_crud = CRUDBase(SubMenu)
 submenu_validators = Validators(SubMenu)
 
 
-async def counter(_id, session):
+async def dishes_counter(_id, session):
     """Подсчет блюд в подменю"""
     querry = (
         select(

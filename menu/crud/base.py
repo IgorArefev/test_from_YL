@@ -1,11 +1,11 @@
-from typing import Any, Type
+from typing import Any
 
 from fastapi import HTTPException, status
 from fastapi.encoders import jsonable_encoder
 from sqlalchemy import UUID, select
 
-from menu.api.v1.validators import Validators
-from menu.core.db import AsyncSessionLocal, Base
+from menu.core.db import AsyncSessionLocal
+from menu.models.base import Base
 from menu.models.dish import Dish
 from menu.models.submenu import SubMenu
 
@@ -13,7 +13,7 @@ from menu.models.submenu import SubMenu
 class CRUDBase:
     """Класс CRUD операций."""
 
-    def __init__(self, model: Type[Base]) -> None:
+    def __init__(self, model: type[Base]) -> None:
         self.model = model
 
     async def create(
@@ -21,15 +21,15 @@ class CRUDBase:
         data: Any,
         session: AsyncSessionLocal,
         _id: UUID = None
-    ) -> Type[Base]:
+    ) -> type[Base]:
         """Запись новой модели в базу."""
 
         new_data = data.model_dump()
         if self.model == SubMenu:
-            new_data["menu_id"] = _id
+            new_data['menu_id'] = _id
         elif self.model == Dish:
-            new_data["submenu_id"] = _id
-            new_data["price"] = str(round(float(new_data["price"]), 2))
+            new_data['submenu_id'] = _id
+            new_data['price'] = str(round(float(new_data['price']), 2))
         db_data = self.model(**new_data)
         session.add(db_data)
         await session.commit()
@@ -41,25 +41,24 @@ class CRUDBase:
         _id: UUID,
         session: AsyncSessionLocal,
         detail_text: str
-    ) -> Type[Base]:
+    ) -> type[Base]:
         """Выбор модели по id."""
 
-        item = await Validators.id_object_exist(
-            self,
-            _id,
-            session
+        item = await session.execute(
+            select(self.model)
+            .where(self.model.id == _id)
         )
         if not item:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail=detail_text
             )
-        return item
+        return item.scalars().first()
 
     async def get_all(
         self,
         session: AsyncSessionLocal
-    ) -> list[Type[Base]]:
+    ) -> list[type[Base]]:
         """Выбор всех моделей."""
 
         all_items = await session.execute(select(self.model))
@@ -70,7 +69,7 @@ class CRUDBase:
         current_value: Any,
         new_value: Any,
         session: AsyncSessionLocal
-    ) -> Type[Base]:
+    ) -> type[Base]:
         """Обновление модели."""
 
         old_data = jsonable_encoder(current_value)
@@ -85,9 +84,9 @@ class CRUDBase:
 
     async def delete(
         self,
-        target: Type[Base],
+        target: type[Base],
         session: AsyncSessionLocal
-    ) -> Type[Base]:
+    ) -> type[Base]:
         """Удаление модели."""
 
         await session.delete(target)

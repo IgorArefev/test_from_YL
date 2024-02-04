@@ -2,17 +2,15 @@ FROM python:3.10-slim
 
 RUN pip install poetry==1.7.1
 
-ENV POETRY_VIRTUALENVS_IN_PROJECT=0
-ENV POETRY_VIRTUALENVS_CREATE=0
-
 WORKDIR /menu_app
 
-COPY ./pyproject.toml ./poetry.lock ./.env-net ./pytest.ini ./
+COPY ./pyproject.toml ./poetry.lock ./dev.env ./test_dev.env ./app.sh ./pytest.ini ./
 
-RUN poetry install --only main --no-root
+RUN chmod a+x ./*.sh
+RUN poetry config virtualenvs.create false
+RUN poetry install --no-ansi
 
-WORKDIR ./menu
-
-COPY ./menu ./tests ./
+COPY ./menu /menu_app/menu
+COPY ./tests /menu_app/tests
 
 ENV PYTHONPATH "${PYTHONPATH}:/menu_app"

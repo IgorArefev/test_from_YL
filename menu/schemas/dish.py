@@ -1,4 +1,4 @@
-from pydantic import BaseModel, UUID4
+from pydantic import UUID4, BaseModel
 
 
 class DishesBase(BaseModel):
@@ -17,4 +17,3 @@ class DishesUpdate(DishesBase):
 
 class DishResponse(DishesBase):
     id: UUID4
-    submenu_id: UUID4

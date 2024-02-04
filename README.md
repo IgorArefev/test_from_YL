@@ -22,6 +22,7 @@
 - PostgreSQL 15.1
 - Docker
 
+
 ## Как запустить?
 
 ### Для запуска потребуется докер
@@ -30,22 +31,38 @@
 ```
 git clone git@github.com:IgorArefev/test_from_YL.git
 ```
-2. Переименовываем файл dev.env -> .env-net
-
-3. В корневом каталоге запускаем проект командой:
+2. Применяем миграции:
 ```
-docker compose up -d
+alembic revision --autogenerate -m "You're comment here"
+```
+В корневом каталоге запускаем проект командой:
+```
+docker-compose --env-file ./dev.env up
 ```
 
 ## Тестируем
 
-Через Postman с помощью файлов из папки tests
+- Через Postman с помощью json файлов из папки tests
+- В локальной среде командой
+```
+pytest -v
+```
+- Через doker
+```
+docker-compose --env-file ./test_dev.env -f docker-compose-test.yml up
+```
 
 
 Так же ознакомится с функционалом можно через SWAGGER
+- в локальной среде:
 ```
 http://127.0.0.1:8000/docs
 ```
+- в запущеном doker
+```
+http://localhost:8000/docs
+```
+
 
 ## Запрос в БД для подсчета подменю и блюд по адресу
 ```
