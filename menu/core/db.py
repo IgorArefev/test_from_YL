@@ -13,5 +13,6 @@ AsyncSessionLocal = async_sessionmaker(
 
 
 async def get_async_session():
+    """Фабрика сессий."""
     async with AsyncSessionLocal() as async_session:
         yield async_session

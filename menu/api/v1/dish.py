@@ -19,6 +19,8 @@ async def create_new_dish(
     menu: DishesCreate,
     session: AsyncSession = Depends(get_async_session),
 ):
+    """Создает новое блюдо."""
+
     await dish_validators.uniq_name_check(menu.title, session)
     return await dish_crud.create(menu, session, target_submenu_id)
 
@@ -31,10 +33,15 @@ async def get_dish(
     target_dish_id: UUID4,
     session: AsyncSession = Depends(get_async_session)
 ):
-    return await dish_crud.get_one_by_id(
+    """Получает блюдо по id."""
+    await dish_validators.id_object_exist(
         target_dish_id,
         session,
         DETAIL
+    )
+    return await dish_crud.get_one_by_id(
+        target_dish_id,
+        session
     )
 
 
@@ -43,8 +50,10 @@ async def get_dish(
     status_code=status.HTTP_200_OK
 )
 async def get_dishes(
-        session: AsyncSession = Depends(get_async_session)
+    session: AsyncSession = Depends(get_async_session)
 ):
+    """Получает все блюда."""
+
     return await dish_crud.get_all(session)
 
 
@@ -57,10 +66,16 @@ async def update_dish_value(
     new_value: DishesUpdate,
     session: AsyncSession = Depends(get_async_session),
 ):
-    target_menu = await dish_crud.get_one_by_id(
+    """Обновляет поля у блюда."""
+
+    await dish_validators.id_object_exist(
         target_dish_id,
         session,
         DETAIL
+    )
+    target_menu = await dish_crud.get_one_by_id(
+        target_dish_id,
+        session
     )
     await dish_validators.uniq_name_check(new_value.title, session)
     return await dish_crud.update(target_menu, new_value, session)
@@ -74,9 +89,15 @@ async def delete_target_dish(
     target_dish_id: UUID4,
     session: AsyncSession = Depends(get_async_session)
 ):
-    target_menu = await dish_crud.get_one_by_id(
+    """Удаляет блюдо."""
+
+    await dish_validators.id_object_exist(
         target_dish_id,
         session,
         DETAIL
+    )
+    target_menu = await dish_crud.get_one_by_id(
+        target_dish_id,
+        session
     )
     return await dish_crud.delete(target_menu, session)

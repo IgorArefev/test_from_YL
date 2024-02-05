@@ -3,7 +3,7 @@ from pydantic_settings import BaseSettings
 
 
 class EnvSettings(BaseSettings):
-    """Класс для работы с файлом .env."""
+    """Класс для работы с файлами .env."""
 
     db_user: str
     db_pass: str
@@ -21,7 +21,8 @@ class EnvSettings(BaseSettings):
     mode: str
 
     @property
-    def db_url(self):
+    def db_url(self) -> str:
+        """url для подключения к БД"""
         return (
             'postgresql+asyncpg://'
             f'{settings.db_user}:'

@@ -20,6 +20,8 @@ async def create_new_submenu(
     menu: SubMenuCreate,
     session: AsyncSession = Depends(get_async_session),
 ):
+    """Создает новое подменю."""
+
     await submenu_validators.uniq_name_check(menu.title, session)
     return await submenu_crud.create(menu, session, target_menu_id)
 
@@ -32,10 +34,15 @@ async def get_submenu(
     target_submenu_id: UUID4,
     session: AsyncSession = Depends(get_async_session)
 ):
-    item = await submenu_crud.get_one_by_id(
+    """Получает подменю по id."""
+    await submenu_validators.id_object_exist(
         target_submenu_id,
         session,
         DETAIL
+    )
+    item = await submenu_crud.get_one_by_id(
+        target_submenu_id,
+        session
     )
     item = jsonable_encoder(item)
     item['dishes_count'] = await dishes_counter(
@@ -52,6 +59,8 @@ async def get_submenu(
 async def get_submenus(
         session: AsyncSession = Depends(get_async_session)
 ):
+    """Получает все подменю."""
+
     return await submenu_crud.get_all(session)
 
 
@@ -64,10 +73,16 @@ async def update_submenu_value(
     new_value: SubMenuUpdate,
     session: AsyncSession = Depends(get_async_session),
 ):
-    target_menu = await submenu_crud.get_one_by_id(
+    """Обновляет поля у подменю."""
+
+    await submenu_validators.id_object_exist(
         target_submenu_id,
         session,
         DETAIL
+    )
+    target_menu = await submenu_crud.get_one_by_id(
+        target_submenu_id,
+        session
     )
     await submenu_validators.uniq_name_check(
         new_value.title,
@@ -76,7 +91,8 @@ async def update_submenu_value(
     return await submenu_crud.update(
         target_menu,
         new_value,
-        session)
+        session
+    )
 
 
 @router.delete(
@@ -87,9 +103,15 @@ async def delete_target_submenu(
     target_submenu_id: UUID4,
     session: AsyncSession = Depends(get_async_session)
 ):
-    target_menu = await submenu_crud.get_one_by_id(
+    """Удаляет подменю."""
+
+    await submenu_validators.id_object_exist(
         target_submenu_id,
         session,
         DETAIL
+    )
+    target_menu = await submenu_crud.get_one_by_id(
+        target_submenu_id,
+        session
     )
     return await submenu_crud.delete(target_menu, session)

@@ -31,13 +31,31 @@
 ```
 git clone git@github.com:IgorArefev/test_from_YL.git
 ```
-2. Применяем миграции:
+2. Далее нужно айти в папку menu
+```
+cd menu/
+```
+3. Применить миграции:
 ```
 alembic revision --autogenerate -m "You're comment here"
 ```
-В корневом каталоге запускаем проект командой:
+4. Возвращаемся в корень
+```
+cd ..
+```
+5. В корневом каталоге запускаем проект командой:
 ```
 docker-compose --env-file ./dev.env up
+```
+
+#### P.S. Для работы в локальной среде:
+
+после пункта 3 выполнить две команды:
+```
+alembic upgrade head
+```
+```
+uvicorn menu.main:menu_app --reload
 ```
 
 ## Тестируем

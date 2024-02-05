@@ -9,14 +9,14 @@ from menu.models.base import Base
 class Validators:
     """Дополнительные методы валидации."""
 
-    def __init__(self, model: type[Base]) -> None:
+    def __init__(self, model: type[Base]):
         self.model = model
 
     async def uniq_name_check(
             self,
             name: str,
             session: AsyncSessionLocal
-    ) -> None:
+    ):
         """Проверка поля на уникальность."""
 
         duplicate = await session.execute(
@@ -33,11 +33,18 @@ class Validators:
     async def id_object_exist(
             self,
             _id: UUID4,
-            session: AsyncSessionLocal
-    ) -> type[Base] | None:
+            session: AsyncSessionLocal,
+            detail: str
+    ):
         """Проверка существует ли модель."""
 
         item = await session.execute(
             select(self.model)
-            .where(self.model.id == _id))
-        return item.scalars().first()
+            .where(self.model.id == _id)
+        )
+        item = item.scalars().first()
+        if not item:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=detail
+            )

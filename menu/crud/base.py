@@ -1,6 +1,5 @@
 from typing import Any
 
-from fastapi import HTTPException, status
 from fastapi.encoders import jsonable_encoder
 from sqlalchemy import UUID, select
 
@@ -13,7 +12,7 @@ from menu.models.submenu import SubMenu
 class CRUDBase:
     """Класс CRUD операций."""
 
-    def __init__(self, model: type[Base]) -> None:
+    def __init__(self, model: type[Base]):
         self.model = model
 
     async def create(
@@ -21,7 +20,7 @@ class CRUDBase:
         data: Any,
         session: AsyncSessionLocal,
         _id: UUID = None
-    ) -> type[Base]:
+    ):
         """Запись новой модели в базу."""
 
         new_data = data.model_dump()
@@ -39,26 +38,20 @@ class CRUDBase:
     async def get_one_by_id(
         self,
         _id: UUID,
-        session: AsyncSessionLocal,
-        detail_text: str
-    ) -> type[Base]:
+        session: AsyncSessionLocal
+    ):
         """Выбор модели по id."""
 
         item = await session.execute(
             select(self.model)
             .where(self.model.id == _id)
         )
-        if not item:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail=detail_text
-            )
         return item.scalars().first()
 
     async def get_all(
         self,
         session: AsyncSessionLocal
-    ) -> list[type[Base]]:
+    ):
         """Выбор всех моделей."""
 
         all_items = await session.execute(select(self.model))
@@ -69,7 +62,7 @@ class CRUDBase:
         current_value: Any,
         new_value: Any,
         session: AsyncSessionLocal
-    ) -> type[Base]:
+    ):
         """Обновление модели."""
 
         old_data = jsonable_encoder(current_value)
@@ -84,9 +77,9 @@ class CRUDBase:
 
     async def delete(
         self,
-        target: type[Base],
+        target: Any,
         session: AsyncSessionLocal
-    ) -> type[Base]:
+    ):
         """Удаление модели."""
 
         await session.delete(target)
