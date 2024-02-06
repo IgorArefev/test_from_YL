@@ -31,26 +31,15 @@
 ```
 git clone git@github.com:IgorArefev/test_from_YL.git
 ```
-2. Далее нужно зайти в папку menu
-```
-cd menu/
-```
-3. Применить миграции:
-```
-alembic revision --autogenerate -m "You're comment here"
-```
-4. Возвращаемся в корень
-```
-cd ..
-```
-5. В корневом каталоге запускаем проект командой:
+2. В корневом каталоге запускаем проект командой:
 ```
 docker-compose --env-file ./dev.env up
 ```
 
 #### P.S. Для работы в локальной среде:
-
-после пункта 3 выполнить две команды:
+```
+cd menu/
+```
 ```
 alembic upgrade head
 ```
