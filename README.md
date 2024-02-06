@@ -31,7 +31,7 @@
 ```
 git clone git@github.com:IgorArefev/test_from_YL.git
 ```
-2. Далее нужно айти в папку menu
+2. Далее нужно зайти в папку menu
 ```
 cd menu/
 ```

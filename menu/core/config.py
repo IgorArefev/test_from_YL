@@ -18,6 +18,10 @@ class EnvSettings(BaseSettings):
     postgres_user: str
     postgres_password: str
 
+    redis_server: str
+    redis_port: int
+    redis_db: int
+
     mode: str
 
     @property
